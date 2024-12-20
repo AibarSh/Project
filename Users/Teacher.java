@@ -11,10 +11,9 @@ public class Teacher extends Employee {
 	private Vector<Courses> courses;
 
 	public Teacher(Languages language, String userID, String password, String name, int age,
-				   HealthStatuses healthStatus, FamilyStatuses familyStatus, 
 				   int salary, Date dateOfEmployment, Faculties faculty,
 				   boolean isProfessor, TeacherType teacherType, Vector<Courses> courses) {
-		super(language, userID, password, name, age, healthStatus, familyStatus, salary, dateOfEmployment);
+		super(language, userID, password, name, age, salary, dateOfEmployment);
 		this.faculty = faculty;
 		this.isProfessor = isProfessor;
 		this.teacherType = teacherType;

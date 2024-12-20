@@ -13,14 +13,13 @@ public class Student extends User {
 	private Position position;
 
 	public Student(Languages language, String userID, String password, String name, int age,
-				   HealthStatuses healthStatus, FamilyStatuses familyStatus, 
-				   Faculties faculty, Courses course, Journal journal, Organizations organization, Position position) {
-		super( userID, password, name, age, healthStatus, familyStatus, language);
+				   Faculties faculty, Courses course, Journal journal) {
+		super( userID, password, name, age, language);
 		this.faculty = faculty;
 		this.course = course;
 		this.journal = journal;
-		this.organization = organization;
-		this.position = position;
+		this.organization =  Organizations.NONE;
+		this.position = Position.NONE;
 	}
 
 	public Faculties getFaculty() {

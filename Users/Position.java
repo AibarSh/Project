@@ -7,5 +7,5 @@ package Users ;
  */
 public enum Position
 {
-	MEMBER, HEAD;
+	MEMBER, HEAD, NONE;
 }

@@ -6,9 +6,8 @@ import Platform.Request;
 public class Dean extends Employee {
 
 	public Dean(Languages language, String userID, String password, String name, int age,
-				HealthStatuses healthStatus, FamilyStatuses familyStatus, 
 				int salary, Date dateOfEmployment) {
-		super(language, userID, password, name, age, healthStatus, familyStatus, salary, dateOfEmployment);
+		super(language, userID, password, name, age, salary, dateOfEmployment);
 	}
 
 	// Methods

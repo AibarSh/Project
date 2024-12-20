@@ -7,10 +7,8 @@ import ResearchWork.Journal;
 public class Admin extends Employee {
 
 	// Constructor
-	public Admin(Languages language, String userID, String password, String name, int age,
-				 HealthStatuses healthStatus, FamilyStatuses familyStatus,
-				 int salary, Date dateOfEmployment) {
-		super(language, userID, password, name, age, healthStatus, familyStatus, salary, dateOfEmployment);
+	public Admin(Languages language, String userID, String password, String name, int age, int salary, Date dateOfEmployment) {
+		super(language, userID, password, name, age, salary, dateOfEmployment);
 	}
 	public Admin() {
 	
@@ -20,6 +18,19 @@ public class Admin extends Employee {
 	public void addToDatabase(UserDatabase base, User u1) {
 		base.addToDatabase(u1);
 		System.out.println("| "+ u1.getClass() + " " + u1.getName() +  " has been added to the database| "); 
+	}
+	
+	
+	public User findInDatabase(UserDatabase base1,  String userID, String password) {
+		for(User u2 : base1.getUsers()) {
+			if(userID.equals(u2.getUserID())) {
+				if(password.equals(u2.getPassword())) {
+					return u2;
+				}
+			}
+		}
+		return null;
+		
 	}
 
 	public void removeFromDatabase(UserDatabase base, User u1) {
@@ -31,15 +42,13 @@ public class Admin extends Employee {
 			user.changeAccess(bool);
 	}
 	
-	public User createUser(String userID, String password, String name, int age,
-			HealthStatuses healthStatus, FamilyStatuses familyStatus, Languages language) {
-		return new User(userID, password, name, age, healthStatus, familyStatus, language);
+	public User createUser(String userID, String password, String name, int age, Languages language) {
+		return new User(userID, password, name, age,language);
 	}
 	
 	public Student createStudent(Languages language, String userID, String password, String name, int age,
-			   HealthStatuses healthStatus, FamilyStatuses familyStatus, 
-			   Faculties faculty, Courses course, Journal journal, Organizations organization, Position position) {
-		return new Student(language, userID, password, name, age, healthStatus, familyStatus, faculty, course, journal, organization, position );
+			   Faculties faculty, Courses course, Journal journal) {
+		return new Student(language, userID, password, name, age, faculty, course, journal);
 	}
 	
 //	public Employee createEmployee(Languages language, String userID, String password, String name, int age,

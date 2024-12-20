@@ -9,9 +9,8 @@ public class Manager extends Employee
 	
 
 	public Manager(Languages language, String userID, String password, String name, int age,
-				   HealthStatuses healthStatus, FamilyStatuses familyStatus,
 				   int salary, Date dateOfEmployment, Faculties department){
-		super(language, userID, password, name, age, healthStatus, familyStatus,  salary, dateOfEmployment);
+		super(language, userID, password, name, age,salary, dateOfEmployment);
 		this.department = department;
 
 	}

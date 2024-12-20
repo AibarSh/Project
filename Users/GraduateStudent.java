@@ -15,16 +15,13 @@ public class GraduateStudent extends Student {
 	private Vector<ResearchProject> diplomaProjects;
 
 	public GraduateStudent(Languages language, String userID, String password, String name, int age,
-						   HealthStatuses healthStatus, FamilyStatuses familyStatus, 
-						   Faculties faculty, Courses course, Journal journal, Organizations organization,
-						   Position position, User researchSupervisor, String degree,
-						   ResearcherType researcherType, Vector<ResearchProject> diplomaProjects) {
-		super(language, userID, password, name, age, healthStatus, familyStatus,
-				faculty, course, journal, organization, position);
+						   Faculties faculty, Courses course, Journal journal,  User researchSupervisor, String degree,
+						   ResearcherType researcherType) {
+		super(language, userID, password, name, age, faculty, course, journal);
 		this.researchSupervisor = researchSupervisor;
 		this.degree = degree;
 		this.researcherType = researcherType;
-		this.diplomaProjects = diplomaProjects;
+		this.diplomaProjects = new Vector<>();
 	}
 
 	public User getResearchSupervisor() {

@@ -7,10 +7,8 @@ public abstract class Employee extends User {
 	private Date dateOfEmployment;
 	private Vector<String> messages = new Vector<>();
 
-	public Employee(Languages language, String userID, String password, String name, int age,
-					HealthStatuses healthStatus, FamilyStatuses familyStatus,
-					int salary, Date dateOfEmployment) {
-		super(userID, password, name, age, healthStatus, familyStatus, language);
+	public Employee(Languages language, String userID, String password, String name, int age, int salary, Date dateOfEmployment) {
+		super(userID, password, name, age, language);
 		this.salary = salary;
 		this.dateOfEmployment = dateOfEmployment;
 	}
