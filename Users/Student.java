@@ -1,50 +1,50 @@
 package Users;
-
 import Platform.Course;
 import Platform.Courses;
+import Platform.Journal1;
+import Platform.Marks;
 import ResearchWork.Journal;
+
+import java.util.Map;
+import java.util.Scanner;
 
 public class Student extends User {
 
 	private Faculties faculty;
 	private Courses course;
-	private Journal journal;
+	private Journal1 journal;
 	private Organizations organization;
 	private Position position;
-
+	private String name;
+	private String userId;
+	private int yearofe;
 	public Student(Languages language, String userID, String password, String name, int age,
-				   Faculties faculty, Courses course, Journal journal) {
-		super( userID, password, name, age, language);
+				   HealthStatuses healthStatus, FamilyStatuses familyStatus, 
+				   Faculties faculty, Courses course, Organizations organization, Position position, int yearofe) {
+		super( userID, password, name, age, healthStatus, familyStatus, language);
 		this.faculty = faculty;
 		this.course = course;
-		this.journal = journal;
-		this.organization =  Organizations.NONE;
-		this.position = Position.NONE;
+		this.organization = organization;
+		this.position = position;
+		this.journal=new Journal1(userID);
+		this.yearofe=yearofe;
 	}
 
 	public Faculties getFaculty() {
 		return faculty;
 	}
 
+	public Journal1 getJournal() {return journal;}
+
 	public void setFaculty(Faculties faculty) {
 		this.faculty = faculty;
 	}
 
-	public Courses getCourse() {
-		return course;
+	public int getCourse() {
+		return yearofe;
 	}
 
-	public void setCourse(Courses course) {
-		this.course = course;
-	}
-
-	public Journal getJournal() {
-		return journal;
-	}
-
-	public void setJournal(Journal journal) {
-		this.journal = journal;
-	}
+	public void setCourse(int course) { this.yearofe = course; }
 
 	public Organizations getOrganization() {
 		return organization;
@@ -63,11 +63,19 @@ public class Student extends User {
 	}
 
 	public void viewCourses() {
-		// Implementation for viewing courses
+		Map<String, Map<String, Integer>> grades = journal.getGrades();
+		if (grades.isEmpty()) {
+			System.out.println("Student " + name + " does not have any courses yet.");
+			return;
+		}
+
+		System.out.println("List of courses of student " + name + ":");
+		for (String subject : grades.keySet()) {
+			System.out.println("  - " + subject);
+		}
 	}
 
 	public void registrationForCourses() {
-		// Implementation for course registration
 	}
 
 	public String getCourseInfo() {
@@ -75,8 +83,12 @@ public class Student extends User {
 		return "Course Info"; // Placeholder
 	}
 
-	public void viewMarks(Course course) {
-		// Implementation to view marks for a course
+	public Marks viewMarks() {
+		Scanner subjname = new Scanner(System.in);
+		System.out.println("Please enter the course name: ");
+		String courseName = subjname.nextLine();
+		Marks totalMarks = journal.getFullMark(courseName);
+		return totalMarks;
 	}
 
 	public void viewTranscript() {
@@ -92,14 +104,26 @@ public class Student extends User {
 		// Implementation to rate a teacher
 	}
 
+	public void displayJournal(String subject) {
+		Map<String, Map<String, Integer>> grades = journal.getGrades();
+		Map<String, Integer> subjectGrades = grades.get(subject);
+
+		if (subjectGrades == null) {
+			System.out.println("Subject " + subject + " cannot be found for " + name + ".");
+			return;
+		}
+
+		System.out.println("Grades for " + subject + " for " + name + ":");
+		for (Map.Entry<String, Integer> entry : subjectGrades.entrySet()) {
+			System.out.println("  Date: " + entry.getKey() + ", Grade: " + entry.getValue());
+		}
+	}
+
 	@Override
 	public String showCommands() {
 		return "List of student commands"; // Placeholder
 	}
 
-	@Override
-	public void viewJournal() {
-		// Implementation to view journal for student
-	}
+
 }
 
