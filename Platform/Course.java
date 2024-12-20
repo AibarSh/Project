@@ -1,65 +1,83 @@
 package Platform;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
-import Users.Student;
-
 public class Course {
-	private int courseID;
-	private String courseName;
-	private Vector<Student> studentsEnrolled = new Vector<>();
-	private Vector<String> instructors = new Vector<>();
-	private Vector<String> prereq = new Vector<>();
-	public CourseTypes type;
-	private Vector<Integer> marks = new Vector<>();
+	private String teacherName;
+	private String courseId;
+	private String subjectName;
 
-	public Course(int n, String s) {
-		this.courseID = n;
-		this.courseName = s;
+	private Map<String, String> students;
+	private Vector<String> instructorNames;
+	private Vector<String> prerequisites;
+
+	public CourseTypes courseType;
+
+
+	public Course(String teacherName, String courseId, String subjectName, CourseTypes courseType) {
+		this.teacherName = teacherName;
+		this.courseId = courseId;
+		this.subjectName = subjectName;
+		this.courseType = courseType;
+
+		this.students = new HashMap<>();
+		this.instructorNames = new Vector<>();
+		this.prerequisites = new Vector<>();
 	}
 
-	public void addStudents(Student s) {
-		studentsEnrolled.addElement(s);
+	public String getTeacherName() {
+		return teacherName;
 	}
 
-	public void addInstructors(String s) {
-		instructors.addElement(s);
+	public void setTeacherName(String teacherName) {this.teacherName = teacherName;}
+
+	public String getCourseId() {
+		return courseId;
 	}
 
-	public void addPrereq(String s) {
-		prereq.addElement(s);
+	public String getSubjectName() {
+		return subjectName;
 	}
 
-	public void addMark(int i) {
-		marks.addElement(i);
+	public Map<String, String> getStudents() {
+		return students;
 	}
 
-	public int getCourseID() {
-		return courseID;
+	public Vector<String> getInstructorNames() {
+		return instructorNames;
 	}
 
-	public void setCourseID(int courseID) {
-		this.courseID = courseID;
+	public Vector<String> getPrerequisites() {
+		return prerequisites;
 	}
 
-	public String getCourseName() {
-		return courseName;
+	public void addStudent(String studentId, String studentName) {
+		students.put(studentId, studentName);
 	}
 
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
+	public void removeStudent(String studentId) {
+		students.remove(studentId);
+	}
+
+	public void addInstructor(String instructorName) {
+		instructorNames.add(instructorName);
+	}
+
+	public void addPrerequisite(String prerequisite) {
+		prerequisites.add(prerequisite);
 	}
 
 	@Override
 	public String toString() {
-		return "Course{" +
-				"courseID=" + courseID +
-				", courseName='" + courseName + '\'' +
-				", studentsEnrolled=" + studentsEnrolled +
-				", instructors=" + instructors +
-				", prereq=" + prereq +
-				", type=" + type +
-				", marks=" + marks +
-				'}';
+		return "Course Details:" +
+				"\nTeacher: " + teacherName +
+				"\nCourse ID: " + courseId +
+				"\nSubject Name: " + subjectName +
+				"\nCourse Type: " + courseType +
+				"\nStudents: " + students +
+				"\nInstructors: " + instructorNames +
+				"\nPrerequisites: " + prerequisites;
 	}
 }
