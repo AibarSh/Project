@@ -112,7 +112,9 @@ public class Student extends User {
 
 	@Override
 	public String showCommands() {
-		return "List of student commands"; // Placeholder
+		return super.showCommands() + "6 - View Courses | 7 - Registaration for Courses | " +
+				"8 - Get course info | 9 - View Transcript | 10 - Get Transcript | 11 - Rate Teacher | " +
+				"12 - Display Journal | ";
 	}
 
 
