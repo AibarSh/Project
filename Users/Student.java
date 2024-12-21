@@ -17,14 +17,13 @@ public class Student extends User {
 	private Position position;
 	private String name;
 	private String userId;
-	private int yearofe;
 	public Student(Languages language, String userID, String password, String name, int age,
-				   Faculties faculty, Courses course,  int yearofe) {
+				   Faculties faculty, Courses course) {
 		super( userID, password, name, age, language);
 		this.faculty = faculty;
 		this.course = course;
 		this.journal=new StudentJournal(userID);
-		this.yearofe=yearofe;
+
 	}
 
 	public Faculties getFaculty() {
@@ -37,11 +36,6 @@ public class Student extends User {
 		this.faculty = faculty;
 	}
 
-	public int getCourse() {
-		return yearofe;
-	}
-
-	public void setCourse(int course) { this.yearofe = course; }
 
 	public Organizations getOrganization() {
 		return organization;
@@ -123,4 +117,3 @@ public class Student extends User {
 
 
 }
-
