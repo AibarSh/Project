@@ -38,8 +38,7 @@ public class TechSupport extends Employee {
 
 	@Override
 	public String showCommands() {
-		// Implementation to show tech support-specific commands
-		return "List of tech support commands"; // Placeholder
+		return super.showCommands() + "8 - Get Orders | 9 - Execute Orders | " ;
 	}
 
 	
