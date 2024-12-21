@@ -47,8 +47,8 @@ public class Admin extends Employee {
 	}
 	
 	public Student createStudent(Languages language, String userID, String password, String name, int age,
-			   Faculties faculty, Courses course, Journal journal) {
-		return new Student(language, userID, password, name, age, faculty, course, journal);
+			   Faculties faculty, Courses course) {
+		return new Student(language, userID, password, name, age, faculty, course);
 	}
 	
 //	public Employee createEmployee(Languages language, String userID, String password, String name, int age,
