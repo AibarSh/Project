@@ -109,8 +109,9 @@ public class Teacher extends Employee {
 
 	@Override
 	public String showCommands() {
-		// Implementation to show teacher-specific commands
-		return "List of teacher commands"; // Placeholder
+		return super.showCommands() + "8 - Add Course | 9 - View Courses | 10 - Make Complaint | " +
+				"11 - Put Mark | 12 - View Student Grades | 13 - View Student Courses | 14 - Get Courses List | " +
+				"15 - Add Lesson | ";
 	}
 
 	
