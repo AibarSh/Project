@@ -1,7 +1,7 @@
 package Users;
 import Platform.Course;
 import Platform.Courses;
-import Platform.Journal1;
+import Platform.StudentJournal;
 import Platform.Marks;
 import ResearchWork.Journal;
 
@@ -12,7 +12,7 @@ public class Student extends User {
 
 	private Faculties faculty;
 	private Courses course;
-	private Journal1 journal;
+	private StudentJournal journal;
 	private Organizations organization;
 	private Position position;
 	private String name;
@@ -31,7 +31,7 @@ public class Student extends User {
 		return faculty;
 	}
 
-	public Journal1 getJournal() {return journal;}
+	public StudentJournal getJournal() {return journal;}
 
 	public void setFaculty(Faculties faculty) {
 		this.faculty = faculty;
