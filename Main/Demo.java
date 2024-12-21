@@ -77,5 +77,14 @@ public class Demo {
 				}
 			}
 			
-			accessUser.console(news1);
+			accessUser.console(news1, journal1, appeals1);
 			
+
+			
+				
+		}
+			
+			
+}	
+
+
