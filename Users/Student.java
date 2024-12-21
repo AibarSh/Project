@@ -19,14 +19,11 @@ public class Student extends User {
 	private String userId;
 	private int yearofe;
 	public Student(Languages language, String userID, String password, String name, int age,
-				   HealthStatuses healthStatus, FamilyStatuses familyStatus, 
-				   Faculties faculty, Courses course, Organizations organization, Position position, int yearofe) {
-		super( userID, password, name, age, healthStatus, familyStatus, language);
+				   Faculties faculty, Courses course,  int yearofe) {
+		super( userID, password, name, age, language);
 		this.faculty = faculty;
 		this.course = course;
-		this.organization = organization;
-		this.position = position;
-		this.journal=new Journal1(userID);
+		this.journal=new StudentJournal(userID);
 		this.yearofe=yearofe;
 	}
 
