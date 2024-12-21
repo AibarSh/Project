@@ -66,7 +66,6 @@ public class GraduateStudent extends Student {
 
 	@Override
 	public String showCommands() {
-		// Implementation to show graduate student-specific commands
-		return "List of graduate student commands"; // Placeholder
+		return super.showCommands() + "13 - Get Degree | 14 -  Get Diploma Projects | ";
 	}
 }
