@@ -41,8 +41,9 @@ public class Manager extends Employee
 
 	
 	public String showCommands() {
-		// TODO implement me
-		return "";	
+		return super.showCommands() + "8 - View Complaints | 9 - Make Schedule | " +
+				"10 - Platform Restriction | 11 - Add News  | 12 - Delete News | 13 - Update News | " +
+				"14 - View Request | 15 - Create Stat | ";	
 	}
 
 	
