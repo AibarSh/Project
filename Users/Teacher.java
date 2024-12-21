@@ -2,7 +2,7 @@ package Users;
 import java.util.*;
 
 import Platform.Course;
-import Platform.Journal1;
+import Platform.StudentJournal;
 
 public class Teacher extends Employee {
 	private String name;
@@ -71,7 +71,7 @@ public class Teacher extends Employee {
 	}
 
 	public void putMark(Student student, String subject, String date, int grade) {
-		Journal1 journal = student.getJournal();
+		StudentJournal journal = student.getJournal();
 		journal.addGrade(subject, date, grade);
 	}
 
