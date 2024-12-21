@@ -29,8 +29,7 @@ public class Dean extends Employee {
 
 	@Override
 	public String showCommands() {
-		// TODO implement the logic to display commands specific to the Dean
-		return "List of dean-specific commands";
+		return "8 - View Complaint | 9 - View Request | 10 - Accept Request | 11 - Decline Request";
 	}
 
 
