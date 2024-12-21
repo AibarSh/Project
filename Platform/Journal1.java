@@ -2,11 +2,11 @@ package Platform;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Journal1 {
+public class StudentJournal {
     private String studentId;
     private Map<String, Map<String, Integer>> grades;
 
-    public Journal1(String studentId) {
+    public StudentJournal(String studentId) {
         this.studentId = studentId;
         this.grades = new HashMap<>();
     }
