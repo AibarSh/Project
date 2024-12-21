@@ -7,7 +7,7 @@ import ResearchWork.Journal;
 
 import java.util.Map;
 import java.util.Scanner;
-
+import java.util.Vector;
 public class Student extends User {
 
 	private Faculties faculty;
@@ -17,12 +17,14 @@ public class Student extends User {
 	private Position position;
 	private String name;
 	private String userId;
+	private Vector<Course> courseslist;
 	public Student(Languages language, String userID, String password, String name, int age,
-				   Faculties faculty, Courses course) {
+				   Faculties faculty, Courses course, Vector<Course> courseslist) {
 		super( userID, password, name, age, language);
 		this.faculty = faculty;
 		this.course = course;
 		this.journal=new StudentJournal(userID);
+		this.courseslist=courseslist;
 
 	}
 
@@ -66,7 +68,18 @@ public class Student extends User {
 		}
 	}
 
-	public void registrationForCourses() {
+	public void viewCourseList() {
+		for (Course value : courseslist) {
+			System.out.println(value.getCourseId() + " - " + value.getSubjectName());
+		}
+	}
+
+	public void registrationForCourses(String courseId) {
+		for (Course value : courseslist) {
+			if (value.getCourseId().equals(courseId)) {
+				value.addStudent(this.userId, this.name);
+			}
+		}
 	}
 
 	public String getCourseInfo() {
