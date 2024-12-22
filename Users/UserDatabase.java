@@ -14,6 +14,12 @@ public class UserDatabase{
 	public UserDatabase() {
 		
 	}
+	public Set<Student> getAllStudents() {
+		return Users.stream()
+				.filter(user -> user instanceof Student) // Фильтруем только студентов
+				.map(user -> (Student) user) // Преобразуем User в Student
+				.collect(Collectors.toSet());
+	}
 
 	public Set<User> getUsers(){
 		return this.Users;
