@@ -1,11 +1,12 @@
 package Users;
 
-import java.util.Vector;
+import Platform.*;
+import ResearchWork.*;
+import Main.*;
 
-import Platform.Courses;
-import ResearchWork.Journal;
-import ResearchWork.ResearchProject;
-import ResearchWork.ResearcherType;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Vector;
 
 public class GraduateStudent extends Student {
 
@@ -13,13 +14,14 @@ public class GraduateStudent extends Student {
 	private String degree;
 	private ResearcherType researcherType;
 	private Vector<ResearchProject> diplomaProjects;
+	private ResearcherDecorator researcherDecorator;
 
 	public GraduateStudent(Languages language, String userID, String password, String name, int age,
-						   Faculties faculty, Courses course, Journal journal,  User researchSupervisor, String degree,
-						   ResearcherType researcherType) {
-		super(language, userID, password, name, age, faculty, course);
+						   Faculties faculty, Courses course, Vector<Course> courseslist,  User researchSupervisor, String degree, ResearcherType researcherType, Vector<ResearchProject> diplomaProjects) {
+		super(language, userID, password, name, age, faculty, course, courseslist);
 		this.researchSupervisor = researchSupervisor;
 		this.degree = degree;
+		this.researcherType = researcherType;
 		this.diplomaProjects = new Vector<>();
 	}
 
@@ -59,114 +61,102 @@ public class GraduateStudent extends Student {
 		return degree;
 	}
 
-	public Vector<ResearchProject> getDiplomaProjectsList() {
-		return diplomaProjects;
+	public void getDiplomaProjectsList() {
+		if (diplomaProjects == null || diplomaProjects.isEmpty()) {
+			System.out.println("No diploma projects available.");
+			return;
+		}
+		for (ResearchProject project : diplomaProjects) {
+			System.out.println(project);
+		}
 	}
+
 
 	@Override
 	public String showCommands() {
-		return super.showCommands() + "10 - Get Degree Details | 11 -  Get Diploma Projects List | ";
+		return super.showCommands() + "| 10 - Get Degree Details | 11 -  Get Diploma Projects List | ";
 	}
 
+	@Override
 	public void console(News news, Journal journal, Appeals appeals) {
 		InputUtil inputint = new InputUtil();
 		InputUtil inputstr = new InputUtil();
 		boolean running = true;
-		while(running) {
 
+		while (running) {
 			System.out.println(showCommands());
 			int input = inputint.getIntInput("Enter your command: \n");
 
-			if(input == 0) {
+			if (input == 0) {
 				running = false;
 				System.out.println("=====                     Exiting...                   =====");
 				break;
 			}
 
-			switch(input) {
-				case(1):
+			switch (input) {
+				case 1 -> {
 					try {
-						int inpt = inputint.getIntInput("| English - 1 | Russian - 2 | Kazakh - 3 | ");
-						if (inpt < 4 && inpt > 0) {
-							if (inpt == 1) {
-								setLanguage(Languages.English);
-
-							}
-							else if (inpt == 2) {
-								setLanguage(Languages.Russian);
-
-							}
-							else {
-								setLanguage(Languages.Kazakh);
-
-							}
-
+						String bait = inputstr.getStringInput("");
+						int langInput = inputint.getIntInput("| English - 1 | Russian - 2 | Kazakh - 3 | ");
+						if (langInput >= 1 && langInput <= 3) {
+							setLanguage(langInput == 1 ? Languages.English :
+									langInput == 2 ? Languages.Russian : Languages.Kazakh);
+						} else {
+							System.out.println("| Invalid input, try again | ");
 						}
-						else System.out.println("| Invalid input, try again | ");
-
+					} catch (Exception e) {
+						System.out.println("| Error occurred while changing language. |");
 					}
-					catch(Exception e) {
-						System.out.println("| Error occured... | \n");
-					}
-					break;
+				}
 
-				case(2):
+				case 2 -> {
 					try {
-						String bait = inputstr.getStringInput(""); // нужен для очистки стрима
+						String bait = inputstr.getStringInput("");
 						String contents = inputstr.getStringInput("Enter request contents: ");
 						Request req = new Request(contents);
 						appeals.addToRequestList(req);
-						System.out.println("| Request send | \n");
+						System.out.println("| Request sent successfully. |");
+					} catch (Exception e) {
+						System.out.println("| Error occurred while sending the request. |");
 					}
+				}
 
-					catch(Exception e) {
-						System.out.println("| Error occured... | \n");
-					}
-					break;
-
-				case(3):
+				case 3 -> {
 					try {
 						news.getNews();
+					} catch (Exception e) {
+						System.out.println("| Error occurred while fetching news. |");
 					}
+				}
 
-					catch(Exception e ) {
-						System.out.println("| Error occured... | \n");
-					}
-					break;
-
-
-				case(4):
+				case 4 -> {
 					try {
 						journal.viewJournal();
-
-					}
-					catch(Exception e) {
-						System.out.println("| Error occured... | \n");
-					}
-					break;
-
-				case(5):
-					try {
-						String bait = inputstr.getStringInput(""); // нужен для очистки стрима
-						String currentPassword = inputstr.getStringInput("Enter your current password: ");
-						String newPassword = inputstr.getStringInput("\nEnter your new password: ");
-						setPassword(currentPassword, newPassword);
-
-					}
-					catch(Exception e) {
-
-					}
-					break;
-
-				case(6):
-					try {
-						viewCourses();
 					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						System.out.println("| Error occurred while viewing journal. |");
 					}
-					break;
+				}
 
-				case(7):
+				case 5 -> {
+					try {
+						String bait = inputstr.getStringInput("");
+						String currentPassword = inputstr.getStringInput("Enter your current password: ");
+						String newPassword = inputstr.getStringInput("Enter your new password: ");
+						setPassword(currentPassword, newPassword);
+					} catch (Exception e) {
+						System.out.println("| Error occurred while changing password. |");
+					}
+				}
+
+				case 6 -> {
+					try {
+						viewCourseList();
+					} catch (Exception e) {
+						System.out.println("| Error occurred while viewing course list. |");
+					}
+				}
+
+				case 7 -> {
 					try {
 						String bait = inputstr.getStringInput("");
 						System.out.println("List of Available Courses: \n");
@@ -183,40 +173,45 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while registering for the course. |");
 					}
-					break;
+				}
 
-				case(8):
+				case 8 -> {
 					try {
-						String subject = inputstr.getStringInput("Enter the subject which journal you want to see: ");
+						String bait = inputstr.getStringInput("");
+						String subject = inputstr.getStringInput("Enter the subject for which you want to see the journal: ");
 						displayJournal(subject);
 					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						System.out.println("| Error occurred while displaying the journal. |");
 					}
-					break;
+				}
 
-				case(9):
-					try{
+				case 9 -> {
+					try {
 						viewMarks();
 					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						System.out.println("| Error occurred while viewing marks. |");
 					}
-					break;
+				}
 
-				case(10):
-					try{
-						getDegreeDetails();
+				case 10 -> {
+					try {
+						System.out.println("Degree Details: " + getDegreeDetails());
 					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						System.out.println("| Error occurred while fetching degree details. |");
 					}
-					break;
+				}
 
-				case(11):
-					try{
+				case 11 -> {
+					try {
 						getDiplomaProjectsList();
 					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						System.out.println("| Error occurred while fetching diploma projects list. |");
 					}
+				}
+				
+
 			}
 		}
 	}
+
 }
