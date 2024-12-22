@@ -2,7 +2,7 @@ package ResearchWork;
 
 import Users.User;
 
-public class UserDecorator{
+public class UserDecorator extends User{
 
 	protected User decoratedUser;
 	
