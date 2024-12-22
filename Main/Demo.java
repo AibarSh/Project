@@ -14,8 +14,12 @@ public class Demo {
 			UserDatabase database1 = new UserDatabase();
 			Appeals appeals1 = new Appeals();
 			Journal journal1 = new Journal("Journal1");
-			Vector<Courses> courses1 = new Vector<>();
+			Vector<Course> courses1 = new Vector<>();
 			News news1 = new News();
+			Course c1 = new Course("Irina Vasylevna", "Tch1A", "Calculus2", CourseTypes.Elective );
+			Course c2 = new Course("Usukin Nikita", "Tch2A", "PP2", CourseTypes.Elective);
+			Course c3 = new Course("Zhuldyzbek Abylhozhin","Tch3A", "Kazakh History", CourseTypes.Elective );
+			courses1.add(c1); courses1.add(c2); courses1.add(c3);
 			
 
 			
@@ -30,14 +34,14 @@ public class Demo {
 			ResearcherDecorator researchertch3 = new ResearcherDecorator(teacher3, ResearcherType.Supervisor);
 			TechSupport techsupport1 = new TechSupport(Languages.English, "Tsp1A", "chinila100", "Muminov Ibragim", 30,  300000, new Date());
 			TechSupport techsupport2 = new TechSupport(Languages.English,"Tsp2A", "Bob the builder", "Shakeyev Sardar", 29,  300000, new Date());
-			Student student1 = new Student(Languages.English,"Std2301", "Anime4love", "Dagurov Erik", 20,  Faculties.SITE, Courses.SecondCourse);
-			Student student2 = new Student(Languages.English,"Std2401", "RainyDay2003", "Hegai Nicole", 19, Faculties.ISE, Courses.FirstCourse);
-			Student student3 = new Student(Languages.English,"Std2303", "Apples", "Shakeyev Aibar", 20, Faculties.SITE, Courses.SecondCourse);
-			GraduateStudent gradstudent1 = new GraduateStudent(Languages.English,"Std2001", "qwerty123", "Temirbayev Nurzhan", 22, Faculties.SCE, Courses.ForthCourse, journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
+			Student student1 = new Student(Languages.English,"Std2301", "Anime4love", "Dagurov Erik", 20,  Faculties.SITE, Courses.SecondCourse, courses1);
+			Student student2 = new Student(Languages.English,"Std2401", "RainyDay2003", "Hegai Nicole", 19, Faculties.ISE, Courses.FirstCourse, courses1);
+			Student student3 = new Student(Languages.English,"Std2303", "Apples", "Shakeyev Aibar", 20, Faculties.SITE, Courses.SecondCourse, courses1);
+			GraduateStudent gradstudent1 = new GraduateStudent(Languages.English,"Std2001", "qwerty123", "Temirbayev Nurzhan", 22, Faculties.SCE, Courses.ForthCourse, courses1, journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
 			ResearcherDecorator researchergstd1 = new ResearcherDecorator(gradstudent1, gradstudent1.getResearcherType());
-			GraduateStudent gradstudent2 = new GraduateStudent(Languages.English,"Std2002", "BestDayEver", "Martynovski Robert", 22,  Faculties.SCE, Courses.ForthCourse, journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
+			GraduateStudent gradstudent2 = new GraduateStudent(Languages.English,"Std2002", "BestDayEver", "Martynovski Robert", 22,  Faculties.SCE, Courses.ForthCourse, courses1,journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
 			ResearcherDecorator researchergstd2 = new ResearcherDecorator(gradstudent2, gradstudent2.getResearcherType());
-			GraduateStudent gradstudent3 = new GraduateStudent(Languages.English,"Std2003", "Try_Catch_Logic", "Idris Diyar", 23, Faculties.SITE, Courses.ForthCourse, journal1, teacher1, "Information Systems",  ResearcherType.Participant);
+			GraduateStudent gradstudent3 = new GraduateStudent(Languages.English,"Std2003", "Try_Catch_Logic", "Idris Diyar", 23, Faculties.SITE, Courses.ForthCourse, courses1,journal1, teacher1, "Information Systems",  ResearcherType.Participant);
 			ResearcherDecorator researchergstd3 = new ResearcherDecorator(gradstudent3, gradstudent3.getResearcherType());
 			
 			
