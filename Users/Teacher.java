@@ -6,6 +6,8 @@ import Main.InputUtil;
 import java.time.LocalDate;
 import Platform.*;
 import ResearchWork.Journal;
+import ResearchWork.ResearchPaper;
+import ResearchWork.ResearchProject;
 
 public class Teacher extends Employee {
 	private final ArrayList<Course> listofcourses;
@@ -14,16 +16,22 @@ public class Teacher extends Employee {
 	private boolean isProfessor;
 	private TeacherType teacherType;
 	private Vector<Course> courses;
+	private boolean isResearcher;
+	private Vector<ResearchPaper> researchPapers;
+	private Vector<ResearchProject> researchProjects;
 
 	public Teacher(Languages language, String userID, String password, String name, int age,
 				   int salary, Date dateOfEmployment, Faculties faculty, Vector<Course> courses,
-				   boolean isProfessor, TeacherType teacherType) {
+				   boolean isProfessor, TeacherType teacherType,Vector<ResearchPaper> researchPapers,Vector<ResearchProject> researchProjects) {
 		super(language, userID, password, name, age, salary, dateOfEmployment);
 		this.faculty = faculty;
 		this.isProfessor = isProfessor;
 		this.teacherType = teacherType;
 		this.listofcourses = new ArrayList<>();
 		this.courses = courses;
+		this.isResearcher = false;
+		this.researchPapers = researchPapers;
+		this.researchProjects = researchProjects;
 	}
 
 	// Getters and Setters
@@ -107,17 +115,27 @@ public class Teacher extends Employee {
 		return this.teacherType;
 	}
 
-
 	public void addLesson() {
 
 	}
 
+	public void turnToResearcher(){
+		this.isResearcher = true;
+	}
+
 	@Override
 	public String showCommands() {
-		return super.showCommands() + "8 - Add Course | 9 - View Courses | 10 - Put Mark | " +
-				"11 - View Student Grades | 12 - View Student Courses | 13 - Get Courses List ";
+		if (isResearcher) {
+			return super.showCommands() + "8 - Add Course | 9 - View Courses |\n| 10 - Put Mark | " +
+					"11 - View Student Grades | 12 - View Student Courses | 13 - Get Courses List |\n| 15 - Print papers | 16 - Start project | 17 - Leave project |";
+		} else {
+			return super.showCommands() + "8 - Add Course | 9 - View Courses |\n| 10 - Put Mark | " +
+					"11 - View Student Grades | 12 - View Student Courses | 13 - Get Courses List | 14 - Start Research";
+
+		}
 	}
-	public void console(News news, Journal journal, StudentJournal stdJournal, Vector<Course> course, Appeals appeals, UserDatabase Users) {
+
+	public void console(News news, Journal journal, StudentJournal stdJournal, Vector<Course> course, Appeals appeals, UserDatabase Users, Vector<ResearchPaper> v1, Vector<ResearchProject> v2) {
 		InputUtil inputint = new InputUtil();
 		InputUtil inputstr = new InputUtil();
 		boolean running = true;
@@ -337,6 +355,70 @@ public class Teacher extends Employee {
 						}
 					}
 					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(14):
+					try{
+						turnToResearcher();
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(15):
+					try{
+						for(ResearchPaper element : researchPapers) {
+							System.out.println(element.getTitle());
+						}
+					}
+					catch (Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(16):
+					try{
+						String bait = inputstr.getStringInput("");
+						String pn = inputstr.getStringInput("Enter project name: ");
+						for(ResearchProject element : researchProjects) {
+							if(element.getName().equals(pn)) {
+								element.participants.add(this);
+							}
+						}
+					}
+					catch (Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(17):
+					try{
+						String bait = inputstr.getStringInput("");
+						String pn = inputstr.getStringInput("Enter project name: ");
+						for(ResearchProject element : researchProjects) {
+							if(element.getName().equals(pn)) {
+								element.participants.remove(this);
+							}
+						}
+					}
+					catch (Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(18):
+					try{
+						System.out.println("Project list: ");
+						for(ResearchProject element : researchProjects) {
+							if(element.participants.contains(this)) {
+								System.out.println(element.getName());
+							}
+						}
+					}
+					catch (Exception e) {
 						System.out.println("| Error occured... | \n");
 					}
 					break;
