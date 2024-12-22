@@ -1,9 +1,9 @@
 package Main;
 import java.util.Vector; 
 
+
 import java.util.Date;
 import Platform.*;
-import Platform.CourseTypes;
 import ResearchWork.*;
 import Users.*;
 
@@ -24,16 +24,22 @@ public class Demo {
 			Dean dean1 = new Dean(Languages.English,"Dn1A", "DeanRules1","Kalimulin Emil", 53,  400000, new Date());
 			Manager manager1 = new Manager(Languages.English,"Mng1A", "TopSorter94", "Sagitov Temirlan", 25, 350000, new Date(), Faculties.ISE);
 			Teacher teacher1 = new Teacher(Languages.English,"Tch1A", "Math is life", "Irina Vasylevna", 67, 600000, new Date(), Faculties.ISE, true, TeacherType.Lecturer);
+			ResearcherDecorator researchertch1 = new ResearcherDecorator(teacher1, ResearcherType.Supervisor);
 			Teacher teacher2 = new Teacher(Languages.English,"Tch2A", "IT_Rules_the_World", "Usukin Nikita", 32, 500000, new Date(), Faculties.SITE, false, TeacherType.Practicioner);
 			Teacher teacher3 = new Teacher(Languages.English,"Tch3A", "History never forgoten", "Zhuldyzbek Abylhozhin", 80,  700000, new Date(), Faculties.SCE, true, TeacherType.Lecturer);
+			ResearcherDecorator researchertch3 = new ResearcherDecorator(teacher3, ResearcherType.Supervisor);
 			TechSupport techsupport1 = new TechSupport(Languages.English, "Tsp1A", "chinila100", "Muminov Ibragim", 30,  300000, new Date());
 			TechSupport techsupport2 = new TechSupport(Languages.English,"Tsp2A", "Bob the builder", "Shakeyev Sardar", 29,  300000, new Date());
 			Student student1 = new Student(Languages.English,"Std2301", "Anime4love", "Dagurov Erik", 20,  Faculties.SITE, Courses.SecondCourse);
 			Student student2 = new Student(Languages.English,"Std2401", "RainyDay2003", "Hegai Nicole", 19, Faculties.ISE, Courses.FirstCourse);
 			Student student3 = new Student(Languages.English,"Std2303", "Apples", "Shakeyev Aibar", 20, Faculties.SITE, Courses.SecondCourse);
 			GraduateStudent gradstudent1 = new GraduateStudent(Languages.English,"Std2001", "qwerty123", "Temirbayev Nurzhan", 22, Faculties.SCE, Courses.ForthCourse, journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
+			ResearcherDecorator researchergstd1 = new ResearcherDecorator(gradstudent1, gradstudent1.getResearcherType());
 			GraduateStudent gradstudent2 = new GraduateStudent(Languages.English,"Std2002", "BestDayEver", "Martynovski Robert", 22,  Faculties.SCE, Courses.ForthCourse, journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
+			ResearcherDecorator researchergstd2 = new ResearcherDecorator(gradstudent2, gradstudent2.getResearcherType());
 			GraduateStudent gradstudent3 = new GraduateStudent(Languages.English,"Std2003", "Try_Catch_Logic", "Idris Diyar", 23, Faculties.SITE, Courses.ForthCourse, journal1, teacher1, "Information Systems",  ResearcherType.Participant);
+			ResearcherDecorator researchergstd3 = new ResearcherDecorator(gradstudent3, gradstudent3.getResearcherType());
+			
 			
 			admin1.addToDatabase(database1, admin1);
 			admin1.addToDatabase(database1, dean1);
