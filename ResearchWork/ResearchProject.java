@@ -28,6 +28,18 @@ public class ResearchProject implements UseResearchPapers{
 		return this.topic;
 	}
 
+	public Vector<String> getPapers() {
+		Vector<String> papers = new Vector<>();
+		for(ResearchPaper p : publishedPapers) {
+			papers.add(p.getTitle());
+		}
+		return papers;
+	}
+
+	public Vector<User> getParticipants() {
+		return this.participants;
+	}
+
 
 	@Override
 	public void addPaper(ResearchPaper parameter) {
