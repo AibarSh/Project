@@ -6,7 +6,7 @@ import ResearchWork.Journal;
 import java.util.Base64;
 import Main.InputUtil;
 import Main.InvalidInputException;
-public class User {
+public abstract class User {
 
 	private String userID;
 	private String name;
