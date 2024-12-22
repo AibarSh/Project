@@ -228,7 +228,7 @@ public class Student extends User {
 
 				case(7):
 					try{
-						try{
+
 						String bait = inputstr.getStringInput("");
 						System.out.println("List of Available Courses: \n");
 						viewCourseList();
