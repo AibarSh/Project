@@ -1,4 +1,5 @@
 package Users;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import Main.InputUtil;
@@ -7,20 +8,22 @@ import Platform.*;
 import ResearchWork.Journal;
 
 public class Teacher extends Employee {
+	private final ArrayList<Course> listofcourses;
 	private String name;
 	private Faculties faculty;
 	private boolean isProfessor;
 	private TeacherType teacherType;
-	private List<Course> courses;
+	private Vector<Course> courses;
 
 	public Teacher(Languages language, String userID, String password, String name, int age,
-				   int salary, Date dateOfEmployment, Faculties faculty,
+				   int salary, Date dateOfEmployment, Faculties faculty, Vector<Course> courses,
 				   boolean isProfessor, TeacherType teacherType) {
 		super(language, userID, password, name, age, salary, dateOfEmployment);
 		this.faculty = faculty;
 		this.isProfessor = isProfessor;
 		this.teacherType = teacherType;
-		this.courses = new ArrayList<>();
+		this.listofcourses = new ArrayList<>();
+		this.courses = courses;
 	}
 
 	// Getters and Setters
@@ -53,23 +56,21 @@ public class Teacher extends Employee {
 	}
 
 	public void addCourse(String Id) {
-		for(int i=0; i<courses.size(); i++) {
-			if(Id == courses.get(i).getCourseId()){
-				courses.add(courses.get(i));
-				courses.get(i).setTeacherName(this.getName());
-			}
-			else {
-				System.out.println("Course not found");
-			}
-		}
+        for (Course cours : courses) {
+            if (cours.getCourseId().equals(Id)) {
+                listofcourses.add(cours);
+                cours.setTeacherName(this.getName());
+				break;
+            }
+        }
 	}
 
 	public void viewCourses() {
-		if (courses.isEmpty()) {
+		if (listofcourses.isEmpty()) {
 			System.out.println(name + " has no courses.");
 		} else {
 			System.out.println(name + " teaches the following courses:");
-			for (Course course : courses) {
+			for (Course course : listofcourses) {
 				System.out.println("Course: " + course.getSubjectName() + ", ID: " + course.getCourseId());
 			}
 		}
@@ -93,9 +94,8 @@ public class Teacher extends Employee {
 			return;
 		}
 
-		for (Map.Entry<String, Integer> entry : subjectGrades.entrySet()) {
-			System.out.println("  Date: " + entry.getKey() + ", Grade: " + entry.getValue());
-		}
+		subjectGrades.forEach((k,v) -> System.out.println("Date = "
+				+ k + ", Grade = " + v));
 	}
 
 	public void viewStudentCourses(Student student) {
@@ -117,7 +117,7 @@ public class Teacher extends Employee {
 		return super.showCommands() + "8 - Add Course | 9 - View Courses | 10 - Put Mark | " +
 				"11 - View Student Grades | 12 - View Student Courses | 13 - Get Courses List ";
 	}
-	public void console(News news, Journal journal, StudentJournal stdJournal, Course course, Appeals appeals, UserDatabase Users) {
+	public void console(News news, Journal journal, StudentJournal stdJournal, Vector<Course> course, Appeals appeals, UserDatabase Users) {
 		InputUtil inputint = new InputUtil();
 		InputUtil inputstr = new InputUtil();
 		boolean running = true;
@@ -230,8 +230,9 @@ public class Teacher extends Employee {
 
 				case(8):
 					try{
+						String bait = inputstr.getStringInput(""); // нужен для очистки стрима
 						String id = inputstr.getStringInput("Enter ID of course: ");
-						addCourse(id);
+						this.addCourse(id);
 					}
 					catch(Exception e) {
 						System.out.println("| Error occured... | \n");
@@ -240,62 +241,87 @@ public class Teacher extends Employee {
 
 				case(9):
 					try{
-						viewCourses();
+						for(Course c : listofcourses) {
+							System.out.println(c.getSubjectName() + " - " + c.getCourseId());
+						}
 					}
 					catch(Exception e) {
 						System.out.println("| Error occured... | \n");
 					}
 					break;
 
-				case(10):
+				case 10:
 					try {
+						// Clearing the stream buffer
+						String bait = inputstr.getStringInput("");
+
+						// Getting user inputs
 						String stid = inputstr.getStringInput("Enter Student ID: ");
-						int grade = inputint.getIntInput("Enter your grade: ");
 						String subj = inputstr.getStringInput("Enter your subject: ");
+						int grade = inputint.getIntInput("Enter your grade: ");
+
+
+
+						// Getting the list of all students
 						Set<Student> list = Users.getAllStudents();
+
+						// Finding the student with the given ID and assigning the grade
+						boolean studentFound = false;
 						for (Student element : list) {
-							if(element.getUserID().equals(stid)) {
-								putMark(element,subj , LocalDate.now().toString(), grade);
-							}
-							else {
-								System.out.println("Student with ID" + element.getUserID() + " does not exist.");
+							if (element.getUserID().equals(stid)) {
+								this.putMark(element, subj, LocalDateTime.now().toString(), grade);
+								studentFound = true;
+								System.out.println("Grade assigned successfully.");
+								break;
 							}
 						}
-					}
-					catch(Exception e) {
-						System.out.println("| Error occured... | \n");
+
+						if (!studentFound) {
+							System.out.println("Student not found with ID: " + stid);
+						}
+					} catch (Exception e) {
+						System.out.println("| Error occurred: " + e.getMessage() + " | \n");
 					}
 					break;
 
 				case(11):
 					try {
+						// Очистка потока (если требуется)
+						inputstr.getStringInput("");
+
+						// Ввод данных
 						String stid = inputstr.getStringInput("Enter Student ID: ");
 						String subj = inputstr.getStringInput("Enter your subject: ");
+
+						// Получение списка студентов
 						Set<Student> list = Users.getAllStudents();
-						for (Student element : list) {
-							if(element.getUserID().equals(stid)) {
-								viewStudentGrades(element, subj);
-							}
-							else {
-								System.out.println("Student with ID" + element.getUserID() + " does not exist.");
-							}
+
+						// Поиск студента по ID
+						Optional<Student> student = list.stream()
+								.filter(element -> element.getUserID().equals(stid))
+								.findFirst();
+
+						// Проверка результата и вывод оценок
+						if (student.isPresent()) {
+							this.viewStudentGrades(student.get(), subj);
+						} else {
+							System.out.println("No student found with ID: " + stid);
 						}
-					}
-					catch(Exception e) {
-						System.out.println("| Error occured... | \n");
+					} catch (Exception e) {
+						System.out.println("| Error occurred... | \n");
+						e.printStackTrace(); // Полезно для отладки
 					}
 					break;
 
+
 				case(12):
 					try {
+						String bait = inputstr.getStringInput(""); // нужен для очистки стрима
 						String stid = inputstr.getStringInput("Enter Student ID: ");
 						Set<Student> list = Users.getAllStudents();
 						for (Student element : list) {
 							if(element.getUserID().equals(stid)) {
-								viewStudentCourses(element);
-							}
-							else {
-								System.out.println("Student with ID" + element.getUserID() + " does not exist.");
+								this.viewStudentCourses(element);
 							}
 						}
 					}
