@@ -4,24 +4,28 @@ import Users.User;
 
 public class ResearchProject implements UseResearchPapers{
 
-	private int projectID;
+	protected static int projectID = 0;
 	private String topic;
 	private Vector<ResearchPaper>publishedPapers;	
 	public Vector<User> participants;
 
-	public ResearchProject(int id, String topic, Vector<ResearchPaper> pp, Vector<User> part){
-		this.projectID = id;
+	public ResearchProject( String topic, Vector<ResearchPaper> pp, Vector<User> part){
+		this.projectID += 1;
 		this.topic = topic;
 		this.publishedPapers = pp;
 		this.participants = part;
 	}
 	
 	public void addParticipant(User parameter) {
-		
+		this.participants.add(parameter);
 	}
 
 	public void removeParticipant(User parameter) {
 		this.participants.remove(parameter);
+	}
+	
+	public String getName() {
+		return this.topic;
 	}
 
 
