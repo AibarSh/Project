@@ -20,7 +20,7 @@ public class ResearchPaper{
 		this.authors = a;
 		this.numberOfPages = nump;
 		this.publicationDate = p;
-		this.journal = j;
+		this.journal.addPaper(this);
 		this.citationNumber = citnum;
 	}
 
