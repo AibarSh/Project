@@ -20,6 +20,9 @@ public class Demo {
 			Course c2 = new Course("Usukin Nikita", "Tch2A", "PP2", CourseTypes.Elective);
 			Course c3 = new Course("Zhuldyzbek Abylhozhin","Tch3A", "Kazakh History", CourseTypes.Elective );
 			courses1.add(c1); courses1.add(c2); courses1.add(c3);
+
+			Vector<ResearchPaper> researchPapers1 = new Vector<>();
+			Vector<ResearchProject>researchProjects1 = new Vector<>();
 			
 
 			
@@ -28,21 +31,36 @@ public class Demo {
 			Dean dean1 = new Dean(Languages.English,"Dn1A", "DeanRules1","Kalimulin Emil", 53,  400000, new Date());
 			Manager manager1 = new Manager(Languages.English,"Mng1A", "TopSorter94", "Sagitov Temirlan", 25, 350000, new Date(), Faculties.ISE);
 			Teacher teacher1 = new Teacher(Languages.English,"Tch1A", "Math is life", "Irina Vasylevna", 67, 600000, new Date(), Faculties.ISE, true, TeacherType.Lecturer);
-			ResearcherDecorator researchertch1 = new ResearcherDecorator(teacher1, ResearcherType.Supervisor);
+			ResearcherDecorator researchertch1 = new ResearcherDecorator(teacher1,3, ResearcherType.Supervisor, 56, researchPapers1, researchProjects1);
 			Teacher teacher2 = new Teacher(Languages.English,"Tch2A", "IT_Rules_the_World", "Usukin Nikita", 32, 500000, new Date(), Faculties.SITE, false, TeacherType.Practicioner);
 			Teacher teacher3 = new Teacher(Languages.English,"Tch3A", "History never forgoten", "Zhuldyzbek Abylhozhin", 80,  700000, new Date(), Faculties.SCE, true, TeacherType.Lecturer);
-			ResearcherDecorator researchertch3 = new ResearcherDecorator(teacher3, ResearcherType.Supervisor);
+			ResearcherDecorator researchertch3 = new ResearcherDecorator(teacher3, 4, ResearcherType.Supervisor, 45, researchPapers1, researchProjects1);
 			TechSupport techsupport1 = new TechSupport(Languages.English, "Tsp1A", "chinila100", "Muminov Ibragim", 30,  300000, new Date());
 			TechSupport techsupport2 = new TechSupport(Languages.English,"Tsp2A", "Bob the builder", "Shakeyev Sardar", 29,  300000, new Date());
-			Student student1 = new Student(Languages.English,"Std2301", "Anime4love", "Dagurov Erik", 20,  Faculties.SITE, Courses.SecondCourse, courses1);
+			Student student1 = new Student(Languages.English, "Std2301", "Anime4love", "Dagurov Erik", 20, Faculties.SITE, Courses.SecondCourse, courses1);
 			Student student2 = new Student(Languages.English,"Std2401", "RainyDay2003", "Hegai Nicole", 19, Faculties.ISE, Courses.FirstCourse, courses1);
 			Student student3 = new Student(Languages.English,"Std2303", "Apples", "Shakeyev Aibar", 20, Faculties.SITE, Courses.SecondCourse, courses1);
-			GraduateStudent gradstudent1 = new GraduateStudent(Languages.English,"Std2001", "qwerty123", "Temirbayev Nurzhan", 22, Faculties.SCE, Courses.ForthCourse, courses1, journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
-			ResearcherDecorator researchergstd1 = new ResearcherDecorator(gradstudent1, gradstudent1.getResearcherType());
-			GraduateStudent gradstudent2 = new GraduateStudent(Languages.English,"Std2002", "BestDayEver", "Martynovski Robert", 22,  Faculties.SCE, Courses.ForthCourse, courses1,journal1, teacher3, "Natural Sciences", ResearcherType.Participant);
-			ResearcherDecorator researchergstd2 = new ResearcherDecorator(gradstudent2, gradstudent2.getResearcherType());
-			GraduateStudent gradstudent3 = new GraduateStudent(Languages.English,"Std2003", "Try_Catch_Logic", "Idris Diyar", 23, Faculties.SITE, Courses.ForthCourse, courses1,journal1, teacher1, "Information Systems",  ResearcherType.Participant);
-			ResearcherDecorator researchergstd3 = new ResearcherDecorator(gradstudent3, gradstudent3.getResearcherType());
+
+			Vector<ResearchProject> diplomaProjectsGradStudent1 = new Vector<>();
+			GraduateStudent gradstudent1 = new GraduateStudent(Languages.English,"Std2001", "qwerty123", "Temirbayev Nurzhan", 22, Faculties.SCE, Courses.ForthCourse, courses1, teacher3, "Natural Sciences", ResearcherType.Participant, diplomaProjectsGradStudent1);
+			ResearcherDecorator researchergstd1 = new ResearcherDecorator(gradstudent1,4, gradstudent1.getResearcherType(), 332, researchPapers1, researchProjects1);
+
+			Vector<ResearchProject> diplomaProjectsGradStudent2 = new Vector<>();
+			GraduateStudent gradstudent2 = new GraduateStudent(Languages.English, "Std2002", "BestDayEver", "Martynovski Robert", 22, Faculties.SCE, Courses.ForthCourse, courses1, teacher3, "Natural Sciences", ResearcherType.Participant, diplomaProjectsGradStudent2);
+			ResearcherDecorator researchergstd2 = new ResearcherDecorator(gradstudent2, 4, gradstudent2.getResearcherType(), 332, researchPapers1, researchProjects1);
+		
+			Vector<ResearchProject> diplomaProjectsGradStudent3 = new Vector<>();
+			GraduateStudent gradstudent3 = new GraduateStudent(Languages.English, "Std2003", "Try_Catch_Logic", "Idris Diyar", 23, Faculties.SITE, Courses.ForthCourse, courses1, teacher1, "Information Systems", ResearcherType.Participant, diplomaProjectsGradStudent3);
+			ResearcherDecorator researchergstd3 = new ResearcherDecorator(gradstudent3, 4, gradstudent3.getResearcherType(), 332, researchPapers1, researchProjects1);
+
+			Vector<User> participants1 = new Vector<>();
+			participants1.add(teacher1);
+			participants1.add(gradstudent1);
+
+
+			ResearchProject researchProject1 = new ResearchProject(1, "AI", researchPapers1, participants1);
+
+			diplomaProjectsGradStudent1.add(researchProject1);
 			
 			
 			admin1.addToDatabase(database1, admin1);
@@ -61,7 +79,7 @@ public class Demo {
 
 			InputUtil input1 = new InputUtil();
 			User accessUser = null;
-		    boolean running1 = true;	
+		    	boolean running1 = true;	
 		
 			System.out.println("\n===== Console-based demo: Research university platform =====\n");
 			
