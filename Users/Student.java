@@ -1,9 +1,7 @@
 package Users;
-import Platform.Course;
-import Platform.Courses;
-import Platform.StudentJournal;
-import Platform.Marks;
-import ResearchWork.Journal;
+import Platform.*;
+import ResearchWork.*;
+import Main.*;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -129,7 +127,7 @@ public class Student extends User {
 				"8 - Display Journal | 9 - View Marks";
 	}
 
-	@Overrride
+
 	public void console(News news, Journal journal, Appeals appeals) {
 		InputUtil inputint = new InputUtil();
 		InputUtil inputstr = new InputUtil();
@@ -222,7 +220,7 @@ public class Student extends User {
 
 				case(6):
 					try {
-						viewCourses();
+						viewCourseList();
 					} catch (Exception e) {
 						System.out.println("| Error occured... | \n");
 					}
@@ -232,6 +230,7 @@ public class Student extends User {
 					try{
 						System.out.println("List of Available Courses: \n");
 						viewCourseList();
+						String bait = inputstr.getStringInput("");
 						String courseIdReg = inputstr.getStringInput("Enter the course you want to register: ");
 						registrationForCourses(courseIdReg);
 						System.out.println("Successful.");
@@ -242,6 +241,7 @@ public class Student extends User {
 
 				case(8):
 					try {
+						String bait = inputstr.getStringInput("");
 						String subject = inputstr.getStringInput("Enter the subject which journal you want to see: ");
 						displayJournal(subject);
 					} catch (Exception e) {
