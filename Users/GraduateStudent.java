@@ -3,6 +3,7 @@ package Users;
 import Platform.*;
 import ResearchWork.*;
 import Main.*;
+import ResearchWork.ResearcherDecorator;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -14,7 +15,8 @@ public class GraduateStudent extends Student {
 	private String degree;
 	private ResearcherType researcherType;
 	private Vector<ResearchProject> diplomaProjects;
-	private ResearcherDecorator researcherDecorator;
+	ResearcherDecorator researcherDecorator;
+	Vector<ResearchProject> researchProjects;
 
 	public GraduateStudent(Languages language, String userID, String password, String name, int age,
 						   Faculties faculty, Courses course, Vector<Course> courseslist,  User researchSupervisor, String degree, ResearcherType researcherType, Vector<ResearchProject> diplomaProjects) {
@@ -74,11 +76,12 @@ public class GraduateStudent extends Student {
 
 	@Override
 	public String showCommands() {
-		return super.showCommands() + "| 10 - Get Degree Details | 11 -  Get Diploma Projects List | ";
+		return super.showCommands() + "| 10 - Get Degree Details | 11 -  Get Diploma Projects List | " +
+				"12 - Print papers | 13 - Get Hindex | 14 - Create new Project | 15 - Leave the Project | ";
 	}
 
 	@Override
-	public void console(News news, Journal journal, Appeals appeals) {
+	public void console(News news, Journal journal, Appeals appeals, UserDatabase database) {
 		InputUtil inputint = new InputUtil();
 		InputUtil inputstr = new InputUtil();
 		boolean running = true;
@@ -107,6 +110,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while changing language. |");
 					}
+					break;
 				}
 
 				case 2 -> {
@@ -119,6 +123,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while sending the request. |");
 					}
+					break;
 				}
 
 				case 3 -> {
@@ -127,6 +132,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while fetching news. |");
 					}
+					break;
 				}
 
 				case 4 -> {
@@ -135,6 +141,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while viewing journal. |");
 					}
+					break;
 				}
 
 				case 5 -> {
@@ -146,6 +153,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while changing password. |");
 					}
+					break;
 				}
 
 				case 6 -> {
@@ -154,6 +162,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while viewing course list. |");
 					}
+					break;
 				}
 
 				case 7 -> {
@@ -173,6 +182,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while registering for the course. |");
 					}
+					break;
 				}
 
 				case 8 -> {
@@ -183,6 +193,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while displaying the journal. |");
 					}
+					break;
 				}
 
 				case 9 -> {
@@ -191,6 +202,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while viewing marks. |");
 					}
+					break;
 				}
 
 				case 10 -> {
@@ -199,6 +211,7 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while fetching degree details. |");
 					}
+					break;
 				}
 
 				case 11 -> {
@@ -207,11 +220,83 @@ public class GraduateStudent extends Student {
 					} catch (Exception e) {
 						System.out.println("| Error occurred while fetching diploma projects list. |");
 					}
+					break;
 				}
-				
 
+				case 12 -> {
+					try {
+						String bait = inputstr.getStringInput("");
+						int inpt = inputint.getIntInput("Order by: 1 - date, 2 - citations, 3 - lenght \n");
+						if (inpt == 1) {
+							ResearchPaperComparator comp = new CompareByDate();
+							researcherDecorator.printPapers(comp);
+						} else if (inpt == 2) {
+							ResearchPaperComparator comp = new CompareByCitation();
+							researcherDecorator.printPapers(comp);
+						} else if (inpt == 3) {
+							ResearchPaperComparator comp = new CompareByLength();
+							researcherDecorator.printPapers(comp);
+						} else {
+							System.out.println("| Enter right number |");
+						}
+					} catch (Exception e) {
+						System.out.println("\"| Error occurred while fetching research papers list. |\"");
+
+
+					}
+				}
+
+				case 13 -> {
+					try {
+						String bait = inputstr.getStringInput("");
+						researcherDecorator.calculateHIndex();
+						System.out.println("| Your HIndex is: " + researcherDecorator.getHIndex());
+					}
+
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+				}
+
+				case 14 -> {
+					try {
+						String bait = inputstr.getStringInput("");
+						String inpt = inputstr.getStringInput("Name your project: ");
+						ResearchProject prj = new ResearchProject(inpt, new Vector<ResearchPaper>(), new Vector<User>());
+						diplomaProjects.add(prj);
+						System.out.println("Your new project " + inpt + " was created");
+					}
+
+					catch(Exception e ) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+				}
+
+				case 15 -> {
+					try {
+						String bait = inputstr.getStringInput("");
+						System.out.println("List of your projects: ");
+						for(ResearchProject pr : diplomaProjects) {
+							System.out.println(pr.getName());
+						}
+						String inpt = inputstr.getStringInput("Enter the name of the project you want to leave: ");
+						for(ResearchProject pr : diplomaProjects) {
+							if( pr.getName().equals(inpt)) {
+								System.out.println("You exited the project " + pr.getName());
+								diplomaProjects.remove(pr);
+							}
+						}
+
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+				}
 			}
+
 		}
 	}
-
 }
