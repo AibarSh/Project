@@ -1,7 +1,6 @@
 package Users;
-import Platform.Appeals;
-import Platform.News;
-import Platform.Request;
+import Platform.*;
+
 import ResearchWork.Journal;
 
 import java.util.Base64;
@@ -100,7 +99,7 @@ public class User {
 		return "| 0 - Exit | 1 - Set language | 2 - Make a request | 3 - See news | 4 - View journal | 5 - Change password | ";  // В других классах отчет идет дальше. Для примера сморти Employee
 	}
 	
-	public void console(News news, Journal journal, Appeals appeals) {
+	public void console(News news, Journal journal, StudentJournal stdJournal, Course course, Appeals appeals) {
 		 InputUtil inputint = new InputUtil();
 	     InputUtil inputstr = new InputUtil();
 		 boolean running = true;	
