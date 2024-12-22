@@ -20,7 +20,6 @@ public class GraduateStudent extends Student {
 		super(language, userID, password, name, age, faculty, course);
 		this.researchSupervisor = researchSupervisor;
 		this.degree = degree;
-		this.researcherType = researcherType;
 		this.diplomaProjects = new Vector<>();
 	}
 
@@ -168,13 +167,21 @@ public class GraduateStudent extends Student {
 					break;
 
 				case(7):
-					try{
+					try {
+						String bait = inputstr.getStringInput("");
 						System.out.println("List of Available Courses: \n");
 						viewCourseList();
-						String courseIdReg = inputstr.getStringInput("Enter the course you want to register: ");
-						registrationForCourses(courseIdReg);
+						String courseIdReg = inputstr.getStringInput("Enter the course's ID you want to register: ");
+						boolean courseFound = courseslist.stream().anyMatch(c -> c.getCourseId().equals(courseIdReg));
+
+						if (courseFound) {
+							registrationForCourses(courseIdReg);
+							System.out.println("Registration Successful.");
+						} else {
+							System.out.println("Course not found. Please check the course ID and try again.");
+						}
 					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						System.out.println("| Error occurred while registering for the course. |");
 					}
 					break;
 
