@@ -3,6 +3,7 @@ import Platform.*;
 import ResearchWork.*;
 import Main.*;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
@@ -76,6 +77,7 @@ public class Student extends User {
 		for (Course value : courseslist) {
 			if (value.getCourseId().equals(courseId)) {
 				value.addStudent(this.userId, this.name);
+				this.getJournal().addGrade(value.getSubjectName(), LocalDate.now().toString(), 1);
 			}
 		}
 	}
@@ -85,10 +87,7 @@ public class Student extends User {
 		return "Course Info"; // Placeholder
 	}
 
-	public Marks viewMarks() {
-		Scanner subjname = new Scanner(System.in);
-		System.out.println("Please enter the course name: ");
-		String courseName = subjname.nextLine();
+	public Marks viewMarks(String courseName) {
 		Marks totalMarks = journal.getFullMark(courseName);
 		return totalMarks;
 	}
@@ -111,11 +110,11 @@ public class Student extends User {
 		Map<String, Integer> subjectGrades = grades.get(subject);
 
 		if (subjectGrades == null) {
-			System.out.println("Subject " + subject + " cannot be found for " + name + ".");
+			System.out.println("Subject " + subject + " cannot be found for " + this.name + ".");
 			return;
 		}
 
-		System.out.println("Grades for " + subject + " for " + name + ":");
+		System.out.println("Grades for " + subject + " for " + this.name + ":");
 		for (Map.Entry<String, Integer> entry : subjectGrades.entrySet()) {
 			System.out.println("  Date: " + entry.getKey() + ", Grade: " + entry.getValue());
 		}
@@ -128,7 +127,7 @@ public class Student extends User {
 	}
 
 
-	public void console(News news, Journal journal, Appeals appeals) {
+	public void console(News news, Journal journal, Appeals appeals, UserDatabase users) {
 		InputUtil inputint = new InputUtil();
 		InputUtil inputstr = new InputUtil();
 		boolean running = true;
@@ -228,11 +227,10 @@ public class Student extends User {
 
 				case(7):
 					try{
-
 						String bait = inputstr.getStringInput("");
 						System.out.println("List of Available Courses: \n");
 						viewCourseList();
-						
+
 						String courseIdReg = inputstr.getStringInput("Enter the course's ID you want to register: ");
 						boolean courseFound = false;
 
@@ -240,41 +238,45 @@ public class Student extends User {
 							if (courseIdReg.equals(value.getCourseId())) {
 								courseFound = true;
 								break;
+								}
 							}
-						}
 
 						if (courseFound) {
 							registrationForCourses(courseIdReg);
 							System.out.println("Registration Successful.");
-						}
+
+							}
 						else{
 							System.out.println("Course not found. Please check the course ID and try again.");
+							}
+						} catch (Exception e) {
+							System.out.println("| Error occured... | \n");
 						}
-					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
-					}
-					break;
+						break;
 
 				case(8):
 					try {
 						String bait = inputstr.getStringInput("");
 						String subject = inputstr.getStringInput("Enter the subject which journal you want to see: ");
 						displayJournal(subject);
-					} catch (Exception e) {
+					}
+					catch (Exception e) {
 						System.out.println("| Error occured... | \n");
 					}
 					break;
 
 				case(9):
 					try{
-						viewMarks();
-					} catch (Exception e) {
-						System.out.println("| Error occured... | \n");
+						String bait = inputstr.getStringInput("");
+						String cn = inputstr.getStringInput("Enter the course name: ");
+						System.out.println(viewMarks(cn));
+							} catch (Exception e) {
+								System.out.println("| Error occured... | \n");
+							}
+							break;
 					}
-					break;
 			}
 		}
+
+
 	}
-
-
-}
