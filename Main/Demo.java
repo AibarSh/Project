@@ -58,7 +58,7 @@ public class Demo {
 			participants1.add(gradstudent1);
 
 
-			ResearchProject researchProject1 = new ResearchProject(1, "AI", researchPapers1, participants1);
+			ResearchProject researchProject1 = new ResearchProject("AI", researchPapers1, participants1);
 
 			diplomaProjectsGradStudent1.add(researchProject1);
 			
