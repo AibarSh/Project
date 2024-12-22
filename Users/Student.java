@@ -228,12 +228,28 @@ public class Student extends User {
 
 				case(7):
 					try{
+						try{
+						String bait = inputstr.getStringInput("");
 						System.out.println("List of Available Courses: \n");
 						viewCourseList();
-						String bait = inputstr.getStringInput("");
-						String courseIdReg = inputstr.getStringInput("Enter the course you want to register: ");
-						registrationForCourses(courseIdReg);
-						System.out.println("Successful.");
+						
+						String courseIdReg = inputstr.getStringInput("Enter the course's ID you want to register: ");
+						boolean courseFound = false;
+
+						for (Course value : courseslist) {
+							if (courseIdReg.equals(value.getCourseId())) {
+								courseFound = true;
+								break;
+							}
+						}
+
+						if (courseFound) {
+							registrationForCourses(courseIdReg);
+							System.out.println("Registration Successful.");
+						}
+						else{
+							System.out.println("Course not found. Please check the course ID and try again.");
+						}
 					} catch (Exception e) {
 						System.out.println("| Error occured... | \n");
 					}
