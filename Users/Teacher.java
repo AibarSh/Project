@@ -1,8 +1,10 @@
 package Users;
 import java.util.*;
 
-import Platform.Course;
-import Platform.StudentJournal;
+import Main.InputUtil;
+import java.time.LocalDate;
+import Platform.*;
+import ResearchWork.Journal;
 
 public class Teacher extends Employee {
 	private String name;
@@ -50,9 +52,16 @@ public class Teacher extends Employee {
 		return courses;
 	}
 
-	public void addCourse(Course course) {
-		courses.add(course);
-		course.setTeacherName(this.getName());
+	public void addCourse(String Id) {
+		for(int i=0; i<courses.size(); i++) {
+			if(Id == courses.get(i).getCourseId()){
+				courses.add(courses.get(i));
+				courses.get(i).setTeacherName(this.getName());
+			}
+			else {
+				System.out.println("Course not found");
+			}
+		}
 	}
 
 	public void viewCourses() {
@@ -94,10 +103,6 @@ public class Teacher extends Employee {
 		student.viewCourses();
 	}
 
-	public void getCoursesList() {
-
-	}
-
 	public TeacherType getType() {
 		return this.teacherType;
 	}
@@ -109,11 +114,207 @@ public class Teacher extends Employee {
 
 	@Override
 	public String showCommands() {
-		return super.showCommands() + "8 - Add Course | 9 - View Courses | 10 - Make Complaint | " +
-				"11 - Put Mark | 12 - View Student Grades | 13 - View Student Courses | 14 - Get Courses List | " +
-				"15 - Add Lesson | ";
+		return super.showCommands() + "8 - Add Course | 9 - View Courses | 10 - Put Mark | " +
+				"11 - View Student Grades | 12 - View Student Courses | 13 - Get Courses List ";
 	}
+	public void console(News news, Journal journal, StudentJournal stdJournal, Course course, Appeals appeals, UserDatabase Users) {
+		InputUtil inputint = new InputUtil();
+		InputUtil inputstr = new InputUtil();
+		boolean running = true;
+		while(running) {
 
-	
+			System.out.println(showCommands());
+			int input = inputint.getIntInput("Enter your command: \n");
+
+			if(input == 0) {
+				running = false;
+				System.out.println("=====                     Exiting...                   =====");
+				break;
+			}
+
+			switch(input) {
+				case(1):
+					try {
+						int inpt = inputint.getIntInput("| English - 1 | Russian - 2 | Kazakh - 3 | ");
+						if (inpt < 4 && inpt > 0) {
+							if (inpt == 1) {
+								setLanguage(Languages.English);
+
+							}
+							else if (inpt == 2) {
+								setLanguage(Languages.Russian);
+
+							}
+							else {
+								setLanguage(Languages.Kazakh);
+
+							}
+
+						}
+						else System.out.println("| Invalid input, try again | ");
+
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(2):
+					try {
+						String bait = inputstr.getStringInput(""); // нужен для очистки стрима
+						String contents = inputstr.getStringInput("Enter request contents: ");
+						Request req = new Request(contents);
+						appeals.addToRequestList(req);
+						System.out.println("| Request send | \n");
+					}
+
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(3):
+					try {
+						news.getNews();
+					}
+
+					catch(Exception e ) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+
+				case(4):
+					try {
+						journal.viewJournal();
+
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(5):
+					try {
+						String bait = inputstr.getStringInput(""); // нужен для очистки стрима
+						String currentPassword = inputstr.getStringInput("Enter your current password: ");
+						String newPassword = inputstr.getStringInput("\nEnter your new password: ");
+						setPassword(currentPassword, newPassword);
+
+					}
+					catch(Exception e) {
+
+					}
+					break;
+
+				case(6):
+					try{
+						String bait = inputstr.getStringInput("");
+						String recipient = inputstr.getStringInput("Enter your recipient name: ");
+						String message = inputstr.getStringInput("Enter your message: ");
+						sendMessage(this, message);
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(7):
+					try {
+						showMessages();
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(8):
+					try{
+						String id = inputstr.getStringInput("Enter ID of course: ");
+						addCourse(id);
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(9):
+					try{
+						viewCourses();
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(10):
+					try {
+						String stid = inputstr.getStringInput("Enter Student ID: ");
+						int grade = inputint.getIntInput("Enter your grade: ");
+						String subj = inputstr.getStringInput("Enter your subject: ");
+						Set<Student> list = Users.getAllStudents();
+						for (Student element : list) {
+							if(element.getUserID().equals(stid)) {
+								putMark(element,subj , LocalDate.now().toString(), grade);
+							}
+							else {
+								System.out.println("Student with ID" + element.getUserID() + " does not exist.");
+							}
+						}
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(11):
+					try {
+						String stid = inputstr.getStringInput("Enter Student ID: ");
+						String subj = inputstr.getStringInput("Enter your subject: ");
+						Set<Student> list = Users.getAllStudents();
+						for (Student element : list) {
+							if(element.getUserID().equals(stid)) {
+								viewStudentGrades(element, subj);
+							}
+							else {
+								System.out.println("Student with ID" + element.getUserID() + " does not exist.");
+							}
+						}
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(12):
+					try {
+						String stid = inputstr.getStringInput("Enter Student ID: ");
+						Set<Student> list = Users.getAllStudents();
+						for (Student element : list) {
+							if(element.getUserID().equals(stid)) {
+								viewStudentCourses(element);
+							}
+							else {
+								System.out.println("Student with ID" + element.getUserID() + " does not exist.");
+							}
+						}
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+
+				case(13):
+					try {
+						for(Course element : courses) {
+							System.out.println(element.getCourseId()+" - "+element.getSubjectName());
+						}
+					}
+					catch(Exception e) {
+						System.out.println("| Error occured... | \n");
+					}
+					break;
+			}
+		}
+	}
 }
-
