@@ -29,11 +29,15 @@ public class Demo {
 			Admin admin1 = new Admin(Languages.English, "Adm1A", "TheBestAdmin99", "Sutubaeva Alexandra", 34, 450000, new Date());
 			Dean dean1 = new Dean(Languages.English,"Dn1A", "DeanRules1","Kalimulin Emil", 53,  400000, new Date());
 			Manager manager1 = new Manager(Languages.English,"Mng1A", "TopSorter94", "Sagitov Temirlan", 25, 350000, new Date(), Faculties.ISE);
-			Teacher teacher1 = new Teacher(Languages.English,"Tch1A", "Math is life", "Irina Vasylevna", 67, 600000, new Date(), Faculties.ISE, true, TeacherType.Lecturer);
 			ResearcherDecorator researchertch1 = new ResearcherDecorator(ResearcherType.Supervisor);
-			Teacher teacher2 = new Teacher(Languages.English,"Tch2A", "IT_Rules_the_World", "Usukin Nikita", 32, 500000, new Date(), Faculties.SITE, false, TeacherType.Practicioner);
-			Teacher teacher3 = new Teacher(Languages.English,"Tch3A", "History never forgoten", "Zhuldyzbek Abylhozhin", 80,  700000, new Date(), Faculties.SCE, true, TeacherType.Lecturer);
-			ResearcherDecorator researchertch3 = new ResearcherDecorator(ResearcherType.Supervisor);
+			Vector<ResearchPaper> v1 = new Vector<>();
+        		Vector<ResearchProject> v2 = new Vector<>();
+        		ResearchPaper rp1 = null;
+        		ResearchProject rpj1 = null;
+        		Teacher teacher1 = new Teacher(Languages.English, "Tch1A", "Math is life", "Irina Vasylevna", 67, 600000, new Date(), Faculties.ISE, courses1, true, TeacherType.Lecturer, v1, v2);
+        		Teacher teacher2 = new Teacher(Languages.English, "Tch2A", "IT_Rules_the_World", "Usukin Nikita", 32, 500000, new Date(), Faculties.SITE, courses1, false, TeacherType.Practicioner, v1, v2);
+        		Teacher teacher3 = new Teacher(Languages.English, "Tch3A", "History never forgoten", "Zhuldyzbek Abylhozhin", 80, 700000, new Date(), Faculties.SCE, courses1, true, TeacherType.Lecturer, v1, v2);
+
 			TechSupport techsupport1 = new TechSupport(Languages.English, "Tsp1A", "chinila100", "Muminov Ibragim", 30,  300000, new Date());
 			TechSupport techsupport2 = new TechSupport(Languages.English,"Tsp2A", "Bob the builder", "Shakeyev Sardar", 29,  300000, new Date());
 			Student student1 = new Student(Languages.English, "Std2301", "Anime4love", "Dagurov Erik", 20, Faculties.SITE, Courses.SecondCourse, courses1);
@@ -43,11 +47,22 @@ public class Demo {
 			Vector<ResearchProject> diplomaProjectsGradStudent1 = new Vector<>();
 			GraduateStudent gradstudent1 = new GraduateStudent(Languages.English,"Std2001", "qwerty123", "Temirbayev Nurzhan", 22, Faculties.SCE, Courses.ForthCourse, courses1, teacher3, "Natural Sciences", ResearcherType.Participant, diplomaProjectsGradStudent1);
 			ResearcherDecorator researchergstd1 = new ResearcherDecorator(gradstudent1.getResearcherType(), researchPapers1, researchProjects1);
-
+			Date d1 = new Date(100, 2, 29);
+        		Vector<User> pp = new Vector<>();
+        		pp.add(teacher1);
+        		pp.add(teacher2);
+        		pp.add(teacher3);
+        		Vector<String> auths = new Vector<>();
+        		auths.add(teacher1.getName());
+        		auths.add(teacher2.getName());
+        		auths.add(teacher3.getName());
 			Vector<ResearchProject> diplomaProjectsGradStudent2 = new Vector<>();
 			GraduateStudent gradstudent2 = new GraduateStudent(Languages.English, "Std2002", "BestDayEver", "Martynovski Robert", 22, Faculties.SCE, Courses.ForthCourse, courses1, teacher3, "Natural Sciences", ResearcherType.Participant, diplomaProjectsGradStudent2);
 			ResearcherDecorator researchergstd2 = new ResearcherDecorator(gradstudent2.getResearcherType(), researchPapers1, researchProjects1);
-
+			rp1 = new ResearchPaper(1, "How to grow a Dragon?", auths, 255, d1, journal1, 150);
+        		v1.add(rp1);
+        		rpj1 = new ResearchProject("Dragons", v1, pp);
+        		rpj1.addParticipant(teacher1);
 			Vector<ResearchProject> diplomaProjectsGradStudent3 = new Vector<>();
 			GraduateStudent gradstudent3 = new GraduateStudent(Languages.English, "Std2003", "Try_Catch_Logic", "Idris Diyar", 23, Faculties.SITE, Courses.ForthCourse, courses1, teacher1, "Information Systems", ResearcherType.Participant, diplomaProjectsGradStudent3);
 			ResearcherDecorator researchergstd3 = new ResearcherDecorator(gradstudent3.getResearcherType(), researchPapers1, researchProjects1);
